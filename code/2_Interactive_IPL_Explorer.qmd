@@ -1,0 +1,325 @@
+---
+title: "Interactive IPL Performance Explorer"
+author: "Pranav Kadari - A1987287"
+format:
+  html:
+    theme: cosmo
+    toc: false
+    toc-depth: 2
+    code-fold: true
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+library(tidyverse)
+library(plotly)
+library(scales)
+library(DT)
+library(htmltools)
+```
+
+```{r load-data}
+# These paths assume this QMD file is inside the code/ folder.
+# The data folder should be one level above: ../data/
+matches <- read_csv("../data/matches.csv")
+deliveries <- read_csv("../data/deliveries.csv")
+```
+
+```{r prepare-data}
+# The supplied IPL dataset uses "Season" with a capital S.
+# This code renames it to "season" so the rest of the workflow is consistent.
+matches_clean <- matches %>%
+  select(id, Season, team1, team2, winner) %>%
+  rename(season = Season) %>%
+  filter(!is.na(season))
+
+# Calculate total runs for each innings from ball-by-ball data.
+innings_totals <- deliveries %>%
+  group_by(match_id, inning, batting_team) %>%
+  summarise(
+    innings_total = sum(total_runs, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# First innings scores are used because they are more comparable across matches.
+first_innings <- innings_totals %>%
+  filter(inning == 1) %>%
+  left_join(matches_clean, by = c("match_id" = "id")) %>%
+  filter(!is.na(season))
+
+# Prepare team-level win-rate data.
+team_wins <- matches %>%
+  filter(!is.na(winner), winner != "") %>%
+  select(id, team1, team2, winner)
+
+team_matches <- bind_rows(
+  team_wins %>% transmute(id, team = team1, winner),
+  team_wins %>% transmute(id, team = team2, winner)
+)
+
+team_summary <- team_matches %>%
+  group_by(team) %>%
+  summarise(
+    matches_played = n(),
+    wins = sum(team == winner, na.rm = TRUE),
+    win_rate = wins / matches_played,
+    .groups = "drop"
+  ) %>%
+  filter(matches_played >= 10) %>%
+  arrange(desc(win_rate))
+
+# Prepare team-by-season scoring data for trend and heatmap views.
+team_score_trend <- first_innings %>%
+  group_by(season, batting_team) %>%
+  summarise(
+    avg_score = mean(innings_total, na.rm = TRUE),
+    matches = n(),
+    .groups = "drop"
+  ) %>%
+  filter(matches >= 2)
+
+# Prepare league-level seasonal scoring summary.
+season_summary <- first_innings %>%
+  group_by(season) %>%
+  summarise(
+    avg_score = mean(innings_total, na.rm = TRUE),
+    median_score = median(innings_total, na.rm = TRUE),
+    highest_score = max(innings_total, na.rm = TRUE),
+    matches = n(),
+    .groups = "drop"
+  )
+
+highest_avg_season <- season_summary %>%
+  arrange(desc(avg_score)) %>%
+  slice(1)
+```
+
+# Interactive IPL Performance Explorer
+
+This interactive component supports the final data story by allowing viewers to explore how IPL scoring patterns and team success vary across seasons. The static report explains the main argument; this interactive page allows deeper inspection using hover tooltips, zooming, legend filtering, and searchable tables.
+
+The central story is that IPL cricket has become more aggressive and higher-scoring over time. This explorer lets the reader investigate that pattern at both league and team level.
+
+---
+
+## Portfolio Summary
+
+```{r summary-cards, results='asis'}
+total_matches <- n_distinct(matches$id)
+total_seasons <- n_distinct(matches_clean$season)
+total_teams <- n_distinct(c(matches$team1, matches$team2))
+highest_season_label <- highest_avg_season$season
+highest_season_score <- round(highest_avg_season$avg_score, 1)
+
+cards <- tags$div(
+  style = "display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px;",
+
+  tags$div(
+    style = "background:#0B3558; color:white; padding:18px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.15);",
+    tags$h3(total_matches),
+    tags$p("Total IPL matches")
+  ),
+
+  tags$div(
+    style = "background:#D97706; color:white; padding:18px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.15);",
+    tags$h3(total_seasons),
+    tags$p("Seasons covered")
+  ),
+
+  tags$div(
+    style = "background:#7F1D1D; color:white; padding:18px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.15);",
+    tags$h3(total_teams),
+    tags$p("Teams/franchises")
+  ),
+
+  tags$div(
+    style = "background:#374151; color:white; padding:18px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.15);",
+    tags$h3(paste0(highest_season_label, ": ", highest_season_score)),
+    tags$p("Highest avg first innings score")
+  )
+)
+
+cards
+```
+
+---
+
+## 1. League Scoring Trend
+
+This chart shows how the average first innings score has changed across IPL seasons. It supports the main story by showing whether the league has become more scoring-focused over time.
+
+```{r interactive-league-trend}
+p_league <- ggplot(season_summary, aes(
+  x = season,
+  y = avg_score,
+  group = 1,
+  text = paste(
+    "Season:", season,
+    "<br>Average first innings score:", round(avg_score, 1),
+    "<br>Median first innings score:", round(median_score, 1),
+    "<br>Highest first innings score:", highest_score,
+    "<br>Matches:", matches
+  )
+)) +
+  geom_line(linewidth = 1.1, colour = "#0B3558") +
+  geom_point(size = 2.5, colour = "#D97706") +
+  labs(
+    title = "Interactive League Scoring Trend",
+    subtitle = "Average first innings score by IPL season",
+    x = "Season",
+    y = "Average First Innings Score"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+ggplotly(p_league, tooltip = "text")
+```
+
+---
+
+## 2. Team Scoring Trends
+
+This chart allows viewers to compare team scoring patterns over time. Use the legend to isolate a specific team or remove teams from view. This makes the interactive element purposeful because the reader can explore which teams contributed most to high-scoring IPL seasons.
+
+```{r interactive-team-scoring}
+p_team <- ggplot(team_score_trend, aes(
+  x = season,
+  y = avg_score,
+  colour = batting_team,
+  group = batting_team,
+  text = paste(
+    "Team:", batting_team,
+    "<br>Season:", season,
+    "<br>Average first innings score:", round(avg_score, 1),
+    "<br>Matches:", matches
+  )
+)) +
+  geom_line(linewidth = 0.8) +
+  geom_point(size = 1.7) +
+  labs(
+    title = "Interactive Team Scoring Trends",
+    subtitle = "Team-level average first innings scores across IPL seasons",
+    x = "Season",
+    y = "Average First Innings Score",
+    colour = "Team"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+ggplotly(p_team, tooltip = "text")
+```
+
+---
+
+## 3. Team Win Rate Explorer
+
+This chart compares long-term franchise success using win rate. Hover over each bar to inspect exact matches played, wins, and win percentage.
+
+```{r interactive-win-rate}
+p_win <- ggplot(team_summary, aes(
+  x = win_rate,
+  y = reorder(team, win_rate),
+  text = paste(
+    "Team:", team,
+    "<br>Matches played:", matches_played,
+    "<br>Wins:", wins,
+    "<br>Win rate:", percent(win_rate, accuracy = 0.1)
+  )
+)) +
+  geom_col(fill = "#0B3558") +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  labs(
+    title = "Interactive IPL Team Win Rates",
+    subtitle = "Long-term franchise success across IPL history",
+    x = "Win Rate",
+    y = "Team"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(panel.grid.minor = element_blank())
+
+ggplotly(p_win, tooltip = "text")
+```
+
+---
+
+## 4. Interactive Team-Season Scoring Heatmap
+
+The heatmap shows team scoring patterns across seasons. Darker colours indicate higher average first innings scores. This is useful because it shows that aggressive scoring was not distributed evenly across all teams and seasons.
+
+```{r interactive-heatmap}
+p_heat <- ggplot(team_score_trend, aes(
+  x = season,
+  y = batting_team,
+  fill = avg_score,
+  text = paste(
+    "Team:", batting_team,
+    "<br>Season:", season,
+    "<br>Average first innings score:", round(avg_score, 1),
+    "<br>Matches:", matches
+  )
+)) +
+  geom_tile(colour = "white", linewidth = 0.25) +
+  scale_fill_gradient(
+    low = "#FEF3C7",
+    high = "#7F1D1D",
+    name = "Avg score"
+  ) +
+  labs(
+    title = "Interactive Team-Season Scoring Heatmap",
+    subtitle = "Average first innings scores by batting team and season",
+    x = "Season",
+    y = "Team"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    panel.grid = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+ggplotly(p_heat, tooltip = "text")
+```
+
+---
+
+## 5. Searchable Team Summary Table
+
+This table gives exact values behind the team win-rate chart. It allows the audience to search, sort, and compare franchises directly.
+
+```{r summary-table}
+team_table <- team_summary %>%
+  mutate(
+    win_rate = percent(win_rate, accuracy = 0.1)
+  ) %>%
+  arrange(desc(win_rate)) %>%
+  rename(
+    Team = team,
+    `Matches Played` = matches_played,
+    Wins = wins,
+    `Win Rate` = win_rate
+  )
+
+datatable(
+  team_table,
+  rownames = FALSE,
+  options = list(
+    pageLength = 10,
+    autoWidth = TRUE,
+    searchHighlight = TRUE
+  )
+)
+```
+
+---
+
+## How this interactive element supports the story
+
+The main report argues that IPL cricket has become more aggressive and higher-scoring over time. This interactive explorer extends that story by allowing the audience to inspect league-level scoring trends, compare franchise success, and explore team-by-season scoring patterns in more detail.

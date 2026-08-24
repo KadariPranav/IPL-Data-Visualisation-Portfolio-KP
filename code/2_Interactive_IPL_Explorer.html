@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Pranav Kadari - A1987287">
+
+<title>Interactive IPL Performance Explorer</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="2_Interactive_IPL_Explorer_files/libs/clipboard/clipboard.min.js"></script>
+<script src="2_Interactive_IPL_Explorer_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="2_Interactive_IPL_Explorer_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="2_Interactive_IPL_Explorer_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="2_Interactive_IPL_Explorer_files/libs/quarto-html/popper.min.js"></script>
+<script src="2_Interactive_IPL_Explorer_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="2_Interactive_IPL_Explorer_files/libs/quarto-html/anchor.min.js"></script>
+<link href="2_Interactive_IPL_Explorer_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="2_Interactive_IPL_Explorer_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="2_Interactive_IPL_Explorer_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="2_Interactive_IPL_Explorer_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="2_Interactive_IPL_Explorer_files/libs/bootstrap/bootstrap-4d7f0bce1131f3e5f9547cd857cfbfc8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="2_Interactive_IPL_Explorer_files/libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+
+<script src="2_Interactive_IPL_Explorer_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="2_Interactive_IPL_Explorer_files/libs/plotly-binding-4.12.0/plotly.js"></script>
+
+<script src="2_Interactive_IPL_Explorer_files/libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="2_Interactive_IPL_Explorer_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="2_Interactive_IPL_Explorer_files/libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="2_Interactive_IPL_Explorer_files/libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+
+<link href="2_Interactive_IPL_Explorer_files/libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="2_Interactive_IPL_Explorer_files/libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+
+<link href="2_Interactive_IPL_Explorer_files/libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+
+<script src="2_Interactive_IPL_Explorer_files/libs/datatables-binding-0.34.0/datatables.js"></script>
+
+<link href="2_Interactive_IPL_Explorer_files/libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<link href="2_Interactive_IPL_Explorer_files/libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+
+<script src="2_Interactive_IPL_Explorer_files/libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+
+<link href="2_Interactive_IPL_Explorer_files/libs/dt-plugin-searchhighlight-1.13.6/source.css" rel="stylesheet">
+
+<script src="2_Interactive_IPL_Explorer_files/libs/dt-plugin-searchhighlight-1.13.6/jquery.highlight.js"></script>
+
+<script src="2_Interactive_IPL_Explorer_files/libs/dt-plugin-searchhighlight-1.13.6/source.min.js"></script>
+
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Interactive IPL Performance Explorer</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Pranav Kadari - A1987287 </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="interactive-ipl-performance-explorer" class="level1">
+<h1>Interactive IPL Performance Explorer</h1>
+<p>This interactive component supports the final data story by allowing viewers to explore how IPL scoring patterns and team success vary across seasons. The static report explains the main argument; this interactive page allows deeper inspection using hover tooltips, zooming, legend filtering, and searchable tables.</p>
+<p>The central story is that IPL cricket has become more aggressive and higher-scoring over time. This explorer lets the reader investigate that pattern at both league and team level.</p>
+<hr>
+<section id="portfolio-summary" class="level2">
+<h2 class="anchored" data-anchor-id="portfolio-summary">Portfolio Summary</h2>
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px;">
+<div style="background:#0B3558; color:white; padding:18px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+<h3 class="anchored">756</h3>
+<p>Total IPL matches</p>
+</div>
+<div style="background:#D97706; color:white; padding:18px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+<h3 class="anchored">12</h3>
+<p>Seasons covered</p>
+</div>
+<div style="background:#7F1D1D; color:white; padding:18px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+<h3 class="anchored">15</h3>
+<p>Teams/franchises</p>
+</div>
+<div style="background:#374151; color:white; padding:18px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+<h3 class="anchored">IPL-2018: 179.9</h3>
+<p>Highest avg first innings score</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="league-scoring-trend" class="level2">
+<h2 class="anchored" data-anchor-id="league-scoring-trend">1. League Scoring Trend</h2>
+<p>This chart shows how the average first innings score has changed across IPL seasons. It supports the main story by showing whether the league has become more scoring-focused over time.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-7bddd9eab4795fe5fae7" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-7bddd9eab4795fe5fae7">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12],"y":[160.9655172413793,150.26315789473685,164.78333333333333,152.36986301369862,157.54054054054055,155.89473684210526,163.06666666666666,166.25423728813558,162.59999999999999,165.77966101694915,179.91666666666666,173.68333333333334],"text":["Season: IPL-2008 <br>Average first innings score: 161 <br>Median first innings score: 160 <br>Highest first innings score: 240 <br>Matches: 58","Season: IPL-2009 <br>Average first innings score: 150.3 <br>Median first innings score: 149 <br>Highest first innings score: 211 <br>Matches: 57","Season: IPL-2010 <br>Average first innings score: 164.8 <br>Median first innings score: 169 <br>Highest first innings score: 246 <br>Matches: 60","Season: IPL-2011 <br>Average first innings score: 152.4 <br>Median first innings score: 156 <br>Highest first innings score: 232 <br>Matches: 73","Season: IPL-2012 <br>Average first innings score: 157.5 <br>Median first innings score: 159 <br>Highest first innings score: 222 <br>Matches: 74","Season: IPL-2013 <br>Average first innings score: 155.9 <br>Median first innings score: 158 <br>Highest first innings score: 263 <br>Matches: 76","Season: IPL-2014 <br>Average first innings score: 163.1 <br>Median first innings score: 160 <br>Highest first innings score: 231 <br>Matches: 60","Season: IPL-2015 <br>Average first innings score: 166.3 <br>Median first innings score: 167 <br>Highest first innings score: 235 <br>Matches: 59","Season: IPL-2016 <br>Average first innings score: 162.6 <br>Median first innings score: 162 <br>Highest first innings score: 248 <br>Matches: 60","Season: IPL-2017 <br>Average first innings score: 165.8 <br>Median first innings score: 163 <br>Highest first innings score: 230 <br>Matches: 59","Season: IPL-2018 <br>Average first innings score: 179.9 <br>Median first innings score: 182.5 <br>Highest first innings score: 250 <br>Matches: 60","Season: IPL-2019 <br>Average first innings score: 173.7 <br>Median first innings score: 174.5 <br>Highest first innings score: 241 <br>Matches: 60"],"type":"scatter","mode":"lines+markers","line":{"width":4.1574803149606305,"color":"rgba(11,53,88,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(217,119,6,1)","opacity":1,"size":9.4488188976377963,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(217,119,6,1)"}},"frame":null}],"layout":{"margin":{"t":43.098381070983812,"r":7.9701120797011216,"b":55.516077714714335,"l":47.023661270236623},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243},"title":{"text":"Interactive League Scoring Trend","font":{"color":"rgba(0,0,0,1)","family":"","size":19.128268991282692},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,12.6],"tickmode":"array","ticktext":["IPL-2008","IPL-2009","IPL-2010","IPL-2011","IPL-2012","IPL-2013","IPL-2014","IPL-2015","IPL-2016","IPL-2017","IPL-2018","IPL-2019"],"tickvals":[1,2,3,4.0000000000000009,5,6,7.0000000000000009,8,9,10,11,12],"categoryorder":"array","categoryarray":["IPL-2008","IPL-2009","IPL-2010","IPL-2011","IPL-2012","IPL-2013","IPL-2014","IPL-2015","IPL-2016","IPL-2017","IPL-2018","IPL-2019"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.72455564360919278,"zeroline":false,"anchor":"y","title":{"text":"Season","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[148.78048245614036,181.39934210526314],"tickmode":"array","ticktext":["150","160","170","180"],"tickvals":[150,160,170,180],"categoryorder":"array","categoryarray":["150","160","170","180"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.72455564360919278,"zeroline":false,"anchor":"x","title":{"text":"Average First Innings Score","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"shapes":[],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":12.7521793275218}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"23001f3c3193":{"x":{},"y":{},"text":{},"type":"scatter"},"23003d4a78dd":{"x":{},"y":{},"text":{}}},"cur_data":"23001f3c3193","visdat":{"23001f3c3193":["function (y) ","x"],"23003d4a78dd":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<hr>
+</section>
+<section id="team-scoring-trends" class="level2">
+<h2 class="anchored" data-anchor-id="team-scoring-trends">2. Team Scoring Trends</h2>
+<p>This chart allows viewers to compare team scoring patterns over time. Use the legend to isolate a specific team or remove teams from view. This makes the interactive element purposeful because the reader can explore which teams contributed most to high-scoring IPL seasons.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-9f5549192247cfaacab3" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-9f5549192247cfaacab3">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,11,12],"y":[172,161.30000000000001,164.375,161.08333333333334,160.41666666666666,180.375,163.85714285714286,160.81818181818181,193.66666666666666,163.33333333333334],"text":["Team: Chennai Super Kings <br>Season: IPL-2008 <br>Average first innings score: 172 <br>Matches: 9","Team: Chennai Super Kings <br>Season: IPL-2009 <br>Average first innings score: 161.3 <br>Matches: 10","Team: Chennai Super Kings <br>Season: IPL-2010 <br>Average first innings score: 164.4 <br>Matches: 8","Team: Chennai Super Kings <br>Season: IPL-2011 <br>Average first innings score: 161.1 <br>Matches: 12","Team: Chennai Super Kings <br>Season: IPL-2012 <br>Average first innings score: 160.4 <br>Matches: 12","Team: Chennai Super Kings <br>Season: IPL-2013 <br>Average first innings score: 180.4 <br>Matches: 8","Team: Chennai Super Kings <br>Season: IPL-2014 <br>Average first innings score: 163.9 <br>Matches: 7","Team: Chennai Super Kings <br>Season: IPL-2015 <br>Average first innings score: 160.8 <br>Matches: 11","Team: Chennai Super Kings <br>Season: IPL-2018 <br>Average first innings score: 193.7 <br>Matches: 6","Team: Chennai Super Kings <br>Season: IPL-2019 <br>Average first innings score: 163.3 <br>Matches: 6"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"Chennai Super Kings","legendgroup":"Chennai Super Kings","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)"}},"frame":null},{"x":[1,2,3,4,5],"y":[157.125,157.875,151,157.55555555555554,160.90909090909091],"text":["Team: Deccan Chargers <br>Season: IPL-2008 <br>Average first innings score: 157.1 <br>Matches: 8","Team: Deccan Chargers <br>Season: IPL-2009 <br>Average first innings score: 157.9 <br>Matches: 8","Team: Deccan Chargers <br>Season: IPL-2010 <br>Average first innings score: 151 <br>Matches: 7","Team: Deccan Chargers <br>Season: IPL-2011 <br>Average first innings score: 157.6 <br>Matches: 9","Team: Deccan Chargers <br>Season: IPL-2012 <br>Average first innings score: 160.9 <br>Matches: 11"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(229,135,0,1)","dash":"solid"},"hoveron":"points","name":"Deccan Chargers","legendgroup":"Deccan Chargers","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(229,135,0,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(229,135,0,1)"}},"frame":null},{"x":[12],"y":[169.83333333333334],"text":"Team: Delhi Capitals <br>Season: IPL-2019 <br>Average first innings score: 169.8 <br>Matches: 6","type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(201,152,0,1)","dash":"solid"},"hoveron":"points","name":"Delhi Capitals","legendgroup":"Delhi Capitals","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(201,152,0,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(201,152,0,1)"}},"frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11],"y":[167.33333333333334,151.71428571428572,171.33333333333334,141.42857142857142,156.5,130.28571428571428,151,160.14285714285714,144.83333333333334,159.33333333333334,187.22222222222223],"text":["Team: Delhi Daredevils <br>Season: IPL-2008 <br>Average first innings score: 167.3 <br>Matches: 6","Team: Delhi Daredevils <br>Season: IPL-2009 <br>Average first innings score: 151.7 <br>Matches: 7","Team: Delhi Daredevils <br>Season: IPL-2010 <br>Average first innings score: 171.3 <br>Matches: 6","Team: Delhi Daredevils <br>Season: IPL-2011 <br>Average first innings score: 141.4 <br>Matches: 7","Team: Delhi Daredevils <br>Season: IPL-2012 <br>Average first innings score: 156.5 <br>Matches: 4","Team: Delhi Daredevils <br>Season: IPL-2013 <br>Average first innings score: 130.3 <br>Matches: 7","Team: Delhi Daredevils <br>Season: IPL-2014 <br>Average first innings score: 151 <br>Matches: 7","Team: Delhi Daredevils <br>Season: IPL-2015 <br>Average first innings score: 160.1 <br>Matches: 7","Team: Delhi Daredevils <br>Season: IPL-2016 <br>Average first innings score: 144.8 <br>Matches: 6","Team: Delhi Daredevils <br>Season: IPL-2017 <br>Average first innings score: 159.3 <br>Matches: 6","Team: Delhi Daredevils <br>Season: IPL-2018 <br>Average first innings score: 187.2 <br>Matches: 9"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(163,165,0,1)","dash":"solid"},"hoveron":"points","name":"Delhi Daredevils","legendgroup":"Delhi Daredevils","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(163,165,0,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(163,165,0,1)"}},"frame":null},{"x":[9,10],"y":[150.33333333333334,170.625],"text":["Team: Gujarat Lions <br>Season: IPL-2016 <br>Average first innings score: 150.3 <br>Matches: 6","Team: Gujarat Lions <br>Season: IPL-2017 <br>Average first innings score: 170.6 <br>Matches: 8"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(107,177,0,1)","dash":"solid"},"hoveron":"points","name":"Gujarat Lions","legendgroup":"Gujarat Lions","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(107,177,0,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(107,177,0,1)"}},"frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12],"y":[174.57142857142858,128.83333333333334,168,158.57142857142858,149,148.75,183.09999999999999,147.71428571428572,154.875,169.125,165.42857142857142,186.14285714285714],"text":["Team: Kings XI Punjab <br>Season: IPL-2008 <br>Average first innings score: 174.6 <br>Matches: 7","Team: Kings XI Punjab <br>Season: IPL-2009 <br>Average first innings score: 128.8 <br>Matches: 6","Team: Kings XI Punjab <br>Season: IPL-2010 <br>Average first innings score: 168 <br>Matches: 8","Team: Kings XI Punjab <br>Season: IPL-2011 <br>Average first innings score: 158.6 <br>Matches: 7","Team: Kings XI Punjab <br>Season: IPL-2012 <br>Average first innings score: 149 <br>Matches: 8","Team: Kings XI Punjab <br>Season: IPL-2013 <br>Average first innings score: 148.8 <br>Matches: 8","Team: Kings XI Punjab <br>Season: IPL-2014 <br>Average first innings score: 183.1 <br>Matches: 10","Team: Kings XI Punjab <br>Season: IPL-2015 <br>Average first innings score: 147.7 <br>Matches: 7","Team: Kings XI Punjab <br>Season: IPL-2016 <br>Average first innings score: 154.9 <br>Matches: 8","Team: Kings XI Punjab <br>Season: IPL-2017 <br>Average first innings score: 169.1 <br>Matches: 8","Team: Kings XI Punjab <br>Season: IPL-2018 <br>Average first innings score: 165.4 <br>Matches: 7","Team: Kings XI Punjab <br>Season: IPL-2019 <br>Average first innings score: 186.1 <br>Matches: 7"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(0,186,56,1)","dash":"solid"},"hoveron":"points","name":"Kings XI Punjab","legendgroup":"Kings XI Punjab","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,186,56,1)"}},"frame":null},{"x":[4],"y":[144.14285714285714],"text":"Team: Kochi Tuskers Kerala <br>Season: IPL-2011 <br>Average first innings score: 144.1 <br>Matches: 7","type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(0,191,125,1)","dash":"solid"},"hoveron":"points","name":"Kochi Tuskers Kerala","legendgroup":"Kochi Tuskers Kerala","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(0,191,125,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,191,125,1)"}},"frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12],"y":[148.33333333333334,143.28571428571428,170,151.71428571428572,149.75,147.14285714285714,167.40000000000001,156.5,165.85714285714286,155,197.83333333333334,179.55555555555554],"text":["Team: Kolkata Knight Riders <br>Season: IPL-2008 <br>Average first innings score: 148.3 <br>Matches: 9","Team: Kolkata Knight Riders <br>Season: IPL-2009 <br>Average first innings score: 143.3 <br>Matches: 7","Team: Kolkata Knight Riders <br>Season: IPL-2010 <br>Average first innings score: 170 <br>Matches: 8","Team: Kolkata Knight Riders <br>Season: IPL-2011 <br>Average first innings score: 151.7 <br>Matches: 7","Team: Kolkata Knight Riders <br>Season: IPL-2012 <br>Average first innings score: 149.8 <br>Matches: 8","Team: Kolkata Knight Riders <br>Season: IPL-2013 <br>Average first innings score: 147.1 <br>Matches: 7","Team: Kolkata Knight Riders <br>Season: IPL-2014 <br>Average first innings score: 167.4 <br>Matches: 5","Team: Kolkata Knight Riders <br>Season: IPL-2015 <br>Average first innings score: 156.5 <br>Matches: 4","Team: Kolkata Knight Riders <br>Season: IPL-2016 <br>Average first innings score: 165.9 <br>Matches: 7","Team: Kolkata Knight Riders <br>Season: IPL-2017 <br>Average first innings score: 155 <br>Matches: 6","Team: Kolkata Knight Riders <br>Season: IPL-2018 <br>Average first innings score: 197.8 <br>Matches: 6","Team: Kolkata Knight Riders <br>Season: IPL-2019 <br>Average first innings score: 179.6 <br>Matches: 9"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(0,192,175,1)","dash":"solid"},"hoveron":"points","name":"Kolkata Knight Riders","legendgroup":"Kolkata Knight Riders","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(0,192,175,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,192,175,1)"}},"frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12],"y":[163.33333333333334,154.25,177.27272727272728,155.25,149.16666666666666,165.54545454545453,154.44444444444446,180,156.71428571428572,163,189.77777777777777,171.90000000000001],"text":["Team: Mumbai Indians <br>Season: IPL-2008 <br>Average first innings score: 163.3 <br>Matches: 6","Team: Mumbai Indians <br>Season: IPL-2009 <br>Average first innings score: 154.2 <br>Matches: 8","Team: Mumbai Indians <br>Season: IPL-2010 <br>Average first innings score: 177.3 <br>Matches: 11","Team: Mumbai Indians <br>Season: IPL-2011 <br>Average first innings score: 155.2 <br>Matches: 8","Team: Mumbai Indians <br>Season: IPL-2012 <br>Average first innings score: 149.2 <br>Matches: 6","Team: Mumbai Indians <br>Season: IPL-2013 <br>Average first innings score: 165.5 <br>Matches: 11","Team: Mumbai Indians <br>Season: IPL-2014 <br>Average first innings score: 154.4 <br>Matches: 9","Team: Mumbai Indians <br>Season: IPL-2015 <br>Average first innings score: 180 <br>Matches: 10","Team: Mumbai Indians <br>Season: IPL-2016 <br>Average first innings score: 156.7 <br>Matches: 7","Team: Mumbai Indians <br>Season: IPL-2017 <br>Average first innings score: 163 <br>Matches: 6","Team: Mumbai Indians <br>Season: IPL-2018 <br>Average first innings score: 189.8 <br>Matches: 9","Team: Mumbai Indians <br>Season: IPL-2019 <br>Average first innings score: 171.9 <br>Matches: 10"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(0,188,216,1)","dash":"solid"},"hoveron":"points","name":"Mumbai Indians","legendgroup":"Mumbai Indians","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(0,188,216,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,188,216,1)"}},"frame":null},{"x":[4,5,6],"y":[140.5,150.71428571428572,153.57142857142858],"text":["Team: Pune Warriors <br>Season: IPL-2011 <br>Average first innings score: 140.5 <br>Matches: 6","Team: Pune Warriors <br>Season: IPL-2012 <br>Average first innings score: 150.7 <br>Matches: 7","Team: Pune Warriors <br>Season: IPL-2013 <br>Average first innings score: 153.6 <br>Matches: 7"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(0,176,246,1)","dash":"solid"},"hoveron":"points","name":"Pune Warriors","legendgroup":"Pune Warriors","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(0,176,246,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,176,246,1)"}},"frame":null},{"x":[1,2,3,4,5,6,7,8,11,12],"y":[171.33333333333334,149.40000000000001,147.75,126,157.18181818181819,154,175.16666666666666,174.19999999999999,165.5,166.19999999999999],"text":["Team: Rajasthan Royals <br>Season: IPL-2008 <br>Average first innings score: 171.3 <br>Matches: 6","Team: Rajasthan Royals <br>Season: IPL-2009 <br>Average first innings score: 149.4 <br>Matches: 5","Team: Rajasthan Royals <br>Season: IPL-2010 <br>Average first innings score: 147.8 <br>Matches: 8","Team: Rajasthan Royals <br>Season: IPL-2011 <br>Average first innings score: 126 <br>Matches: 5","Team: Rajasthan Royals <br>Season: IPL-2012 <br>Average first innings score: 157.2 <br>Matches: 11","Team: Rajasthan Royals <br>Season: IPL-2013 <br>Average first innings score: 154 <br>Matches: 8","Team: Rajasthan Royals <br>Season: IPL-2014 <br>Average first innings score: 175.2 <br>Matches: 6","Team: Rajasthan Royals <br>Season: IPL-2015 <br>Average first innings score: 174.2 <br>Matches: 5","Team: Rajasthan Royals <br>Season: IPL-2018 <br>Average first innings score: 165.5 <br>Matches: 8","Team: Rajasthan Royals <br>Season: IPL-2019 <br>Average first innings score: 166.2 <br>Matches: 5"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(97,156,255,1)","dash":"solid"},"hoveron":"points","name":"Rajasthan Royals","legendgroup":"Rajasthan Royals","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(97,156,255,1)"}},"frame":null},{"x":[10],"y":[163],"text":"Team: Rising Pune Supergiant <br>Season: IPL-2017 <br>Average first innings score: 163 <br>Matches: 8","type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(185,131,255,1)","dash":"solid"},"hoveron":"points","name":"Rising Pune Supergiant","legendgroup":"Rising Pune Supergiant","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(185,131,255,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(185,131,255,1)"}},"frame":null},{"x":[9],"y":[160.42857142857142],"text":"Team: Rising Pune Supergiants <br>Season: IPL-2016 <br>Average first innings score: 160.4 <br>Matches: 7","type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(231,107,243,1)","dash":"solid"},"hoveron":"points","name":"Rising Pune Supergiants","legendgroup":"Rising Pune Supergiants","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(231,107,243,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(231,107,243,1)"}},"frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12],"y":[137.42857142857142,145,162.75,177.19999999999999,181.14285714285714,167.27272727272728,147.33333333333334,191,192.30000000000001,159.375,184.33333333333334,160.33333333333334],"text":["Team: Royal Challengers Bangalore <br>Season: IPL-2008 <br>Average first innings score: 137.4 <br>Matches: 7","Team: Royal Challengers Bangalore <br>Season: IPL-2009 <br>Average first innings score: 145 <br>Matches: 6","Team: Royal Challengers Bangalore <br>Season: IPL-2010 <br>Average first innings score: 162.8 <br>Matches: 4","Team: Royal Challengers Bangalore <br>Season: IPL-2011 <br>Average first innings score: 177.2 <br>Matches: 5","Team: Royal Challengers Bangalore <br>Season: IPL-2012 <br>Average first innings score: 181.1 <br>Matches: 7","Team: Royal Challengers Bangalore <br>Season: IPL-2013 <br>Average first innings score: 167.3 <br>Matches: 11","Team: Royal Challengers Bangalore <br>Season: IPL-2014 <br>Average first innings score: 147.3 <br>Matches: 6","Team: Royal Challengers Bangalore <br>Season: IPL-2015 <br>Average first innings score: 191 <br>Matches: 6","Team: Royal Challengers Bangalore <br>Season: IPL-2016 <br>Average first innings score: 192.3 <br>Matches: 10","Team: Royal Challengers Bangalore <br>Season: IPL-2017 <br>Average first innings score: 159.4 <br>Matches: 8","Team: Royal Challengers Bangalore <br>Season: IPL-2018 <br>Average first innings score: 184.3 <br>Matches: 6","Team: Royal Challengers Bangalore <br>Season: IPL-2019 <br>Average first innings score: 160.3 <br>Matches: 9"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(253,97,209,1)","dash":"solid"},"hoveron":"points","name":"Royal Challengers Bangalore","legendgroup":"Royal Challengers Bangalore","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(253,97,209,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(253,97,209,1)"}},"frame":null},{"x":[6,7,8,9,10,11,12],"y":[145,158.69999999999999,160.22222222222223,160.22222222222223,180,162.77777777777777,188.75],"text":["Team: Sunrisers Hyderabad <br>Season: IPL-2013 <br>Average first innings score: 145 <br>Matches: 9","Team: Sunrisers Hyderabad <br>Season: IPL-2014 <br>Average first innings score: 158.7 <br>Matches: 10","Team: Sunrisers Hyderabad <br>Season: IPL-2015 <br>Average first innings score: 160.2 <br>Matches: 9","Team: Sunrisers Hyderabad <br>Season: IPL-2016 <br>Average first innings score: 160.2 <br>Matches: 9","Team: Sunrisers Hyderabad <br>Season: IPL-2017 <br>Average first innings score: 180 <br>Matches: 9","Team: Sunrisers Hyderabad <br>Season: IPL-2018 <br>Average first innings score: 162.8 <br>Matches: 9","Team: Sunrisers Hyderabad <br>Season: IPL-2019 <br>Average first innings score: 188.8 <br>Matches: 8"],"type":"scatter","mode":"lines+markers","line":{"width":3.0236220472440949,"color":"rgba(255,103,164,1)","dash":"solid"},"hoveron":"points","name":"Sunrisers Hyderabad","legendgroup":"Sunrisers Hyderabad","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(255,103,164,1)","opacity":1,"size":6.4251968503937009,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(255,103,164,1)"}},"frame":null}],"layout":{"margin":{"t":43.098381070983812,"r":7.9701120797011216,"b":55.516077714714335,"l":47.023661270236623},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243},"title":{"text":"Interactive Team Scoring Trends","font":{"color":"rgba(0,0,0,1)","family":"","size":19.128268991282692},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,12.6],"tickmode":"array","ticktext":["IPL-2008","IPL-2009","IPL-2010","IPL-2011","IPL-2012","IPL-2013","IPL-2014","IPL-2015","IPL-2016","IPL-2017","IPL-2018","IPL-2019"],"tickvals":[1,2,3,4.0000000000000009,5,6,7.0000000000000009,8,9,10,11,12],"categoryorder":"array","categoryarray":["IPL-2008","IPL-2009","IPL-2010","IPL-2011","IPL-2012","IPL-2013","IPL-2014","IPL-2015","IPL-2016","IPL-2017","IPL-2018","IPL-2019"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.72455564360919278,"zeroline":false,"anchor":"y","title":{"text":"Season","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[122.40833333333333,201.42500000000001],"tickmode":"array","ticktext":["140","160","180","200"],"tickvals":[140,160,180,200],"categoryorder":"array","categoryarray":["140","160","180","200"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.72455564360919278,"zeroline":false,"anchor":"x","title":{"text":"Average First Innings Score","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":12.7521793275218},"title":{"text":"Team","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"2300391a395d":{"x":{},"y":{},"colour":{},"text":{},"type":"scatter"},"230019b53c":{"x":{},"y":{},"colour":{},"text":{}}},"cur_data":"2300391a395d","visdat":{"2300391a395d":["function (y) ","x"],"230019b53c":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<hr>
+</section>
+<section id="team-win-rate-explorer" class="level2">
+<h2 class="anchored" data-anchor-id="team-win-rate-explorer">3. Team Win Rate Explorer</h2>
+<p>This chart compares long-term franchise success using win rate. Hover over each bar to inspect exact matches played, wins, and win percentage.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-62a290ca99874fe52aca" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-62a290ca99874fe52aca">{"x":{"data":[{"orientation":"v","width":[0.625,0.625,0.6097560975609756,0.58288770053475936,0.53703703703703709,0.51724137931034486,0.5168539325842697,0.47457627118644069,0.46590909090909088,0.43333333333333335,0.42857142857142855,0.42138364779874216,0.38666666666666666,0.35714285714285715,0.26666666666666666],"base":[13.550000000000001,14.550000000000001,12.550000000000001,11.550000000000001,10.550000000000001,9.5500000000000007,8.5500000000000007,7.5499999999999998,6.5499999999999998,5.5499999999999998,4.5499999999999998,3.5499999999999998,2.5499999999999998,1.55,0.55000000000000004],"x":[0.3125,0.3125,0.3048780487804878,0.29144385026737968,0.26851851851851855,0.25862068965517243,0.25842696629213485,0.23728813559322035,0.23295454545454544,0.21666666666666667,0.21428571428571427,0.21069182389937108,0.19333333333333333,0.17857142857142858,0.13333333333333333],"y":[0.89999999999999858,0.89999999999999858,0.89999999999999858,0.89999999999999858,0.89999999999999858,0.89999999999999858,0.89999999999999858,0.89999999999999947,0.90000000000000036,0.90000000000000036,0.90000000000000036,0.90000000000000036,0.90000000000000036,0.90000000000000013,0.89999999999999991],"text":["Team: Delhi Capitals <br>Matches played: 16 <br>Wins: 10 <br>Win rate: 62.5%","Team: Rising Pune Supergiant <br>Matches played: 16 <br>Wins: 10 <br>Win rate: 62.5%","Team: Chennai Super Kings <br>Matches played: 164 <br>Wins: 100 <br>Win rate: 61.0%","Team: Mumbai Indians <br>Matches played: 187 <br>Wins: 109 <br>Win rate: 58.3%","Team: Sunrisers Hyderabad <br>Matches played: 108 <br>Wins: 58 <br>Win rate: 53.7%","Team: Rajasthan Royals <br>Matches played: 145 <br>Wins: 75 <br>Win rate: 51.7%","Team: Kolkata Knight Riders <br>Matches played: 178 <br>Wins: 92 <br>Win rate: 51.7%","Team: Royal Challengers Bangalore <br>Matches played: 177 <br>Wins: 84 <br>Win rate: 47.5%","Team: Kings XI Punjab <br>Matches played: 176 <br>Wins: 82 <br>Win rate: 46.6%","Team: Gujarat Lions <br>Matches played: 30 <br>Wins: 13 <br>Win rate: 43.3%","Team: Kochi Tuskers Kerala <br>Matches played: 14 <br>Wins: 6 <br>Win rate: 42.9%","Team: Delhi Daredevils <br>Matches played: 159 <br>Wins: 67 <br>Win rate: 42.1%","Team: Deccan Chargers <br>Matches played: 75 <br>Wins: 29 <br>Win rate: 38.7%","Team: Rising Pune Supergiants <br>Matches played: 14 <br>Wins: 5 <br>Win rate: 35.7%","Team: Pune Warriors <br>Matches played: 45 <br>Wins: 12 <br>Win rate: 26.7%"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(11,53,88,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.098381070983812,"r":7.9701120797011216,"b":40.647571606475722,"l":200.04981320049822},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243},"title":{"text":"Interactive IPL Team Win Rates","font":{"color":"rgba(0,0,0,1)","family":"","size":19.128268991282692},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.03125,0.65625],"tickmode":"array","ticktext":["0%","20%","40%","60%"],"tickvals":[0,0.20000000000000001,0.40000000000000002,0.60000000000000009],"categoryorder":"array","categoryarray":["0%","20%","40%","60%"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.72455564360919278,"zeroline":false,"anchor":"y","title":{"text":"Win Rate","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,15.6],"tickmode":"array","ticktext":["Pune Warriors","Rising Pune Supergiants","Deccan Chargers","Delhi Daredevils","Kochi Tuskers Kerala","Gujarat Lions","Kings XI Punjab","Royal Challengers Bangalore","Kolkata Knight Riders","Rajasthan Royals","Sunrisers Hyderabad","Mumbai Indians","Chennai Super Kings","Delhi Capitals","Rising Pune Supergiant"],"tickvals":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],"categoryorder":"array","categoryarray":["Pune Warriors","Rising Pune Supergiants","Deccan Chargers","Delhi Daredevils","Kochi Tuskers Kerala","Gujarat Lions","Kings XI Punjab","Royal Challengers Bangalore","Kolkata Knight Riders","Rajasthan Royals","Sunrisers Hyderabad","Mumbai Indians","Chennai Super Kings","Delhi Capitals","Rising Pune Supergiant"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.9850560398505608,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.72455564360919278,"zeroline":false,"anchor":"x","title":{"text":"Team","font":{"color":"rgba(0,0,0,1)","family":"","size":15.940224159402243}},"hoverformat":".2f"},"shapes":[],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":12.7521793275218}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"230056ba4eb6":{"x":{},"y":{},"text":{},"type":"bar"}},"cur_data":"230056ba4eb6","visdat":{"230056ba4eb6":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<hr>
+</section>
+<section id="interactive-team-season-scoring-heatmap" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-team-season-scoring-heatmap">4. Interactive Team-Season Scoring Heatmap</h2>
+<p>The heatmap shows team scoring patterns across seasons. Darker colours indicate higher average first innings scores. This is useful because it shows that aggressive scoring was not distributed evenly across all teams and seasons.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-51fdf36e5b14e3e777eb" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-51fdf36e5b14e3e777eb">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12],"y":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],"z":[[0.64037122969837579,0.4914153132250581,0.53422273781902541,0.4883990719257541,0.47911832946635713,0.75696055684454744,0.52701358965860123,0.48470786753849388,null,null,0.94199535962877001,0.51972157772621819],[0.43329466357308577,0.44373549883990715,0.34802784222737815,0.43928847641144603,0.48597342332841165,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,0.61020881670533644],[0.57540603248259869,0.35797149486244623,0.6310904872389792,0.21478289691746749,0.42459396751740136,0.05966191581040757,0.34802784222737815,0.4753065959562478,0.26218097447795835,0.46403712296983768,0.85228151585460166,null],[null,null,null,null,null,null,null,null,0.33874709976798151,0.62122969837586994,null,null],[0.67616837918462058,0.039443155452436318,0.58468677494199528,0.45343056015909855,0.32018561484918789,0.31670533642691412,0.79489559164733159,0.30228704010606572,0.40197215777262174,0.60034802784222729,0.54888962545575049,0.83725555187272105],[null,null,null,0.25256877693072577,null,null,null,null,null,null,null,null],[0.31090487238979125,0.24063639376864421,0.61252900232018559,0.35797149486244623,0.33062645011600922,0.29433211799801118,0.57633410672853824,0.42459396751740136,0.55485581703679154,0.40371229698375866,1,0.74555297757153882],[0.51972157772621819,0.39327146171693728,0.71377346551360477,0.40719257540603243,0.32250580046403693,0.55051676861421617,0.39597834493426154,0.7517401392111368,0.42757706330792183,0.51508120649651967,0.88785769528228908,0.6389791183294663],[null,null,null,0.20185614849187933,0.34405038117335107,0.38382499171362294,null,null,null,null,null,null],[0.6310904872389792,0.32575406032482601,0.30278422273781896,0,0.43408563594178445,0.3897911832946635,0.68445475638051023,0.67099767981438485,null,null,0.54988399071925742,0.55962877030162395],[null,null,null,null,null,null,null,null,null,0.51508120649651967,null,null],[null,null,null,null,null,null,null,null,0.47928405701027488,null,null,null],[0.15909844216108698,0.26450116009280739,0.51160092807424584,0.71276102088167026,0.76764998342724544,0.57456232862265344,0.29698375870069615,0.90487238979118323,0.92296983758700701,0.4646171693735498,0.81206496519721583,0.47795823665893278],[null,null,null,null,null,0.26450116009280739,0.45522041763341048,0.47641144624903325,0.47641144624903325,0.7517401392111368,0.51198762567672063,0.87354988399071909]],"text":[["Team: Chennai Super Kings <br>Season: IPL-2008 <br>Average first innings score: 172 <br>Matches: 9","Team: Chennai Super Kings <br>Season: IPL-2009 <br>Average first innings score: 161.3 <br>Matches: 10","Team: Chennai Super Kings <br>Season: IPL-2010 <br>Average first innings score: 164.4 <br>Matches: 8","Team: Chennai Super Kings <br>Season: IPL-2011 <br>Average first innings score: 161.1 <br>Matches: 12","Team: Chennai Super Kings <br>Season: IPL-2012 <br>Average first innings score: 160.4 <br>Matches: 12","Team: Chennai Super Kings <br>Season: IPL-2013 <br>Average first innings score: 180.4 <br>Matches: 8","Team: Chennai Super Kings <br>Season: IPL-2014 <br>Average first innings score: 163.9 <br>Matches: 7","Team: Chennai Super Kings <br>Season: IPL-2015 <br>Average first innings score: 160.8 <br>Matches: 11",null,null,"Team: Chennai Super Kings <br>Season: IPL-2018 <br>Average first innings score: 193.7 <br>Matches: 6","Team: Chennai Super Kings <br>Season: IPL-2019 <br>Average first innings score: 163.3 <br>Matches: 6"],["Team: Deccan Chargers <br>Season: IPL-2008 <br>Average first innings score: 157.1 <br>Matches: 8","Team: Deccan Chargers <br>Season: IPL-2009 <br>Average first innings score: 157.9 <br>Matches: 8","Team: Deccan Chargers <br>Season: IPL-2010 <br>Average first innings score: 151 <br>Matches: 7","Team: Deccan Chargers <br>Season: IPL-2011 <br>Average first innings score: 157.6 <br>Matches: 9","Team: Deccan Chargers <br>Season: IPL-2012 <br>Average first innings score: 160.9 <br>Matches: 11",null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,"Team: Delhi Capitals <br>Season: IPL-2019 <br>Average first innings score: 169.8 <br>Matches: 6"],["Team: Delhi Daredevils <br>Season: IPL-2008 <br>Average first innings score: 167.3 <br>Matches: 6","Team: Delhi Daredevils <br>Season: IPL-2009 <br>Average first innings score: 151.7 <br>Matches: 7","Team: Delhi Daredevils <br>Season: IPL-2010 <br>Average first innings score: 171.3 <br>Matches: 6","Team: Delhi Daredevils <br>Season: IPL-2011 <br>Average first innings score: 141.4 <br>Matches: 7","Team: Delhi Daredevils <br>Season: IPL-2012 <br>Average first innings score: 156.5 <br>Matches: 4","Team: Delhi Daredevils <br>Season: IPL-2013 <br>Average first innings score: 130.3 <br>Matches: 7","Team: Delhi Daredevils <br>Season: IPL-2014 <br>Average first innings score: 151 <br>Matches: 7","Team: Delhi Daredevils <br>Season: IPL-2015 <br>Average first innings score: 160.1 <br>Matches: 7","Team: Delhi Daredevils <br>Season: IPL-2016 <br>Average first innings score: 144.8 <br>Matches: 6","Team: Delhi Daredevils <br>Season: IPL-2017 <br>Average first innings score: 159.3 <br>Matches: 6","Team: Delhi Daredevils <br>Season: IPL-2018 <br>Average first innings score: 187.2 <br>Matches: 9",null],[null,null,null,null,null,null,null,null,"Team: Gujarat Lions <br>Season: IPL-2016 <br>Average first innings score: 150.3 <br>Matches: 6","Team: Gujarat Lions <br>Season: IPL-2017 <br>Average first innings score: 170.6 <br>Matches: 8",null,null],["Team: Kings XI Punjab <br>Season: IPL-2008 <br>Average first innings score: 174.6 <br>Matches: 7","Team: Kings XI Punjab <br>Season: IPL-2009 <br>Average first innings score: 128.8 <br>Matches: 6","Team: Kings XI Punjab <br>Season: IPL-2010 <br>Average first innings score: 168 <br>Matches: 8","Team: Kings XI Punjab <br>Season: IPL-2011 <br>Average first innings score: 158.6 <br>Matches: 7","Team: Kings XI Punjab <br>Season: IPL-2012 <br>Average first innings score: 149 <br>Matches: 8","Team: Kings XI Punjab <br>Season: IPL-2013 <br>Average first innings score: 148.8 <br>Matches: 8","Team: Kings XI Punjab <br>Season: IPL-2014 <br>Average first innings score: 183.1 <br>Matches: 10","Team: Kings XI Punjab <br>Season: IPL-2015 <br>Average first innings score: 147.7 <br>Matches: 7","Team: Kings XI Punjab <br>Season: IPL-2016 <br>Average first innings score: 154.9 <br>Matches: 8","Team: Kings XI Punjab <br>Season: IPL-2017 <br>Average first innings score: 169.1 <br>Matches: 8","Team: Kings XI Punjab <br>Season: IPL-2018 <br>Average first innings score: 165.4 <br>Matches: 7","Team: Kings XI Punjab <br>Season: IPL-2019 <br>Average first innings score: 186.1 <br>Matches: 7"],[null,null,null,"Team: Kochi Tuskers Kerala <br>Season: IPL-2011 <br>Average first innings score: 144.1 <br>Matches: 7",null,null,null,null,null,null,null,null],["Team: Kolkata Knight Riders <br>Season: IPL-2008 <br>Average first innings score: 148.3 <br>Matches: 9","Team: Kolkata Knight Riders <br>Season: IPL-2009 <br>Average first innings score: 143.3 <br>Matches: 7","Team: Kolkata Knight Riders <br>Season: IPL-2010 <br>Average first innings score: 170 <br>Matches: 8","Team: Kolkata Knight Riders <br>Season: IPL-2011 <br>Average first innings score: 151.7 <br>Matches: 7","Team: Kolkata Knight Riders <br>Season: IPL-2012 <br>Average first innings score: 149.8 <br>Matches: 8","Team: Kolkata Knight Riders <br>Season: IPL-2013 <br>Average first innings score: 147.1 <br>Matches: 7","Team: Kolkata Knight Riders <br>Season: IPL-2014 <br>Average first innings score: 167.4 <br>Matches: 5","Team: Kolkata Knight Riders <br>Season: IPL-2015 <br>Average first innings score: 156.5 <br>Matches: 4","Team: Kolkata Knight Riders <br>Season: IPL-2016 <br>Average first innings score: 165.9 <br>Matches: 7","Team: Kolkata Knight Riders <br>Season: IPL-2017 <br>Average first innings score: 155 <br>Matches: 6","Team: Kolkata Knight Riders <br>Season: IPL-2018 <br>Average first innings score: 197.8 <br>Matches: 6","Team: Kolkata Knight Riders <br>Season: IPL-2019 <br>Average first innings score: 179.6 <br>Matches: 9"],["Team: Mumbai Indians <br>Season: IPL-2008 <br>Average first innings score: 163.3 <br>Matches: 6","Team: Mumbai Indians <br>Season: IPL-2009 <br>Average first innings score: 154.2 <br>Matches: 8","Team: Mumbai Indians <br>Season: IPL-2010 <br>Average first innings score: 177.3 <br>Matches: 11","Team: Mumbai Indians <br>Season: IPL-2011 <br>Average first innings score: 155.2 <br>Matches: 8","Team: Mumbai Indians <br>Season: IPL-2012 <br>Average first innings score: 149.2 <br>Matches: 6","Team: Mumbai Indians <br>Season: IPL-2013 <br>Average first innings score: 165.5 <br>Matches: 11","Team: Mumbai Indians <br>Season: IPL-2014 <br>Average first innings score: 154.4 <br>Matches: 9","Team: Mumbai Indians <br>Season: IPL-2015 <br>Average first innings score: 180 <br>Matches: 10","Team: Mumbai Indians <br>Season: IPL-2016 <br>Average first innings score: 156.7 <br>Matches: 7","Team: Mumbai Indians <br>Season: IPL-2017 <br>Average first innings score: 163 <br>Matches: 6","Team: Mumbai Indians <br>Season: IPL-2018 <br>Average first innings score: 189.8 <br>Matches: 9","Team: Mumbai Indians <br>Season: IPL-2019 <br>Average first innings score: 171.9 <br>Matches: 10"],[null,null,null,"Team: Pune Warriors <br>Season: IPL-2011 <br>Average first innings score: 140.5 <br>Matches: 6","Team: Pune Warriors <br>Season: IPL-2012 <br>Average first innings score: 150.7 <br>Matches: 7","Team: Pune Warriors <br>Season: IPL-2013 <br>Average first innings score: 153.6 <br>Matches: 7",null,null,null,null,null,null],["Team: Rajasthan Royals <br>Season: IPL-2008 <br>Average first innings score: 171.3 <br>Matches: 6","Team: Rajasthan Royals <br>Season: IPL-2009 <br>Average first innings score: 149.4 <br>Matches: 5","Team: Rajasthan Royals <br>Season: IPL-2010 <br>Average first innings score: 147.8 <br>Matches: 8","Team: Rajasthan Royals <br>Season: IPL-2011 <br>Average first innings score: 126 <br>Matches: 5","Team: Rajasthan Royals <br>Season: IPL-2012 <br>Average first innings score: 157.2 <br>Matches: 11","Team: Rajasthan Royals <br>Season: IPL-2013 <br>Average first innings score: 154 <br>Matches: 8","Team: Rajasthan Royals <br>Season: IPL-2014 <br>Average first innings score: 175.2 <br>Matches: 6","Team: Rajasthan Royals <br>Season: IPL-2015 <br>Average first innings score: 174.2 <br>Matches: 5",null,null,"Team: Rajasthan Royals <br>Season: IPL-2018 <br>Average first innings score: 165.5 <br>Matches: 8","Team: Rajasthan Royals <br>Season: IPL-2019 <br>Average first innings score: 166.2 <br>Matches: 5"],[null,null,null,null,null,null,null,null,null,"Team: Rising Pune Supergiant <br>Season: IPL-2017 <br>Average first innings score: 163 <br>Matches: 8",null,null],[null,null,null,null,null,null,null,null,"Team: Rising Pune Supergiants <br>Season: IPL-2016 <br>Average first innings score: 160.4 <br>Matches: 7",null,null,null],["Team: Royal Challengers Bangalore <br>Season: IPL-2008 <br>Average first innings score: 137.4 <br>Matches: 7","Team: Royal Challengers Bangalore <br>Season: IPL-2009 <br>Average first innings score: 145 <br>Matches: 6","Team: Royal Challengers Bangalore <br>Season: IPL-2010 <br>Average first innings score: 162.8 <br>Matches: 4","Team: Royal Challengers Bangalore <br>Season: IPL-2011 <br>Average first innings score: 177.2 <br>Matches: 5","Team: Royal Challengers Bangalore <br>Season: IPL-2012 <br>Average first innings score: 181.1 <br>Matches: 7","Team: Royal Challengers Bangalore <br>Season: IPL-2013 <br>Average first innings score: 167.3 <br>Matches: 11","Team: Royal Challengers Bangalore <br>Season: IPL-2014 <br>Average first innings score: 147.3 <br>Matches: 6","Team: Royal Challengers Bangalore <br>Season: IPL-2015 <br>Average first innings score: 191 <br>Matches: 6","Team: Royal Challengers Bangalore <br>Season: IPL-2016 <br>Average first innings score: 192.3 <br>Matches: 10","Team: Royal Challengers Bangalore <br>Season: IPL-2017 <br>Average first innings score: 159.4 <br>Matches: 8","Team: Royal Challengers Bangalore <br>Season: IPL-2018 <br>Average first innings score: 184.3 <br>Matches: 6","Team: Royal Challengers Bangalore <br>Season: IPL-2019 <br>Average first innings score: 160.3 <br>Matches: 9"],[null,null,null,null,null,"Team: Sunrisers Hyderabad <br>Season: IPL-2013 <br>Average first innings score: 145 <br>Matches: 9","Team: Sunrisers Hyderabad <br>Season: IPL-2014 <br>Average first innings score: 158.7 <br>Matches: 10","Team: Sunrisers Hyderabad <br>Season: IPL-2015 <br>Average first innings score: 160.2 <br>Matches: 9","Team: Sunrisers Hyderabad <br>Season: IPL-2016 <br>Average first innings score: 160.2 <br>Matches: 9","Team: Sunrisers Hyderabad <br>Season: IPL-2017 <br>Average first innings score: 180 <br>Matches: 9","Team: Sunrisers Hyderabad <br>Season: IPL-2018 <br>Average first innings score: 162.8 <br>Matches: 9","Team: Sunrisers Hyderabad <br>Season: IPL-2019 <br>Average first innings score: 188.8 <br>Matches: 8"]],"colorscale":[[0,"#FEF3C7"],[0.039443155452436318,"#FAEABF"],[0.05966191581040757,"#F7E6BC"],[0.15909844216108698,"#ECD0A9"],[0.20185614849187933,"#E7C7A1"],[0.21478289691746749,"#E6C49F"],[0.24063639376864421,"#E3BF9A"],[0.25256877693072577,"#E1BC98"],[0.26218097447795835,"#E0BA96"],[0.26450116009280739,"#E0B995"],[0.29433211799801118,"#DCB390"],[0.29698375870069615,"#DCB390"],[0.30228704010606572,"#DBB18F"],[0.30278422273781896,"#DBB18F"],[0.31090487238979125,"#DAB08D"],[0.31670533642691412,"#D9AE8C"],[0.32018561484918789,"#D9AE8B"],[0.32250580046403693,"#D9AD8B"],[0.32575406032482601,"#D8AC8A"],[0.33062645011600922,"#D8AB8A"],[0.33874709976798151,"#D7AA88"],[0.34405038117335107,"#D6A987"],[0.34802784222737815,"#D6A886"],[0.35797149486244623,"#D5A685"],[0.38382499171362294,"#D1A080"],[0.3897911832946635,"#D19F7F"],[0.39327146171693728,"#D09E7E"],[0.39597834493426154,"#D09E7E"],[0.40197215777262174,"#CF9C7D"],[0.40371229698375866,"#CF9C7D"],[0.40719257540603243,"#CE9B7C"],[0.42459396751740136,"#CC9879"],[0.42757706330792183,"#CC9778"],[0.43329466357308577,"#CB9677"],[0.43408563594178445,"#CB9677"],[0.43928847641144603,"#CB9576"],[0.44373549883990715,"#CA9476"],[0.45343056015909855,"#C99274"],[0.45522041763341048,"#C99174"],[0.46403712296983768,"#C78F72"],[0.4646171693735498,"#C78F72"],[0.4753065959562478,"#C68D70"],[0.47641144624903325,"#C68D70"],[0.47795823665893278,"#C68D70"],[0.47911832946635713,"#C68C6F"],[0.47928405701027488,"#C68C6F"],[0.48470786753849388,"#C58B6E"],[0.48597342332841165,"#C58B6E"],[0.4883990719257541,"#C48A6E"],[0.4914153132250581,"#C48A6D"],[0.51160092807424584,"#C1866A"],[0.51198762567672063,"#C1856A"],[0.51508120649651967,"#C18569"],[0.51972157772621819,"#C08468"],[0.52701358965860123,"#BF8267"],[0.53422273781902541,"#BF8166"],[0.54888962545575049,"#BD7E63"],[0.54988399071925742,"#BD7E63"],[0.55051676861421617,"#BC7E63"],[0.55485581703679154,"#BC7D62"],[0.55962877030162395,"#BB7C62"],[0.57456232862265344,"#B9795F"],[0.57540603248259869,"#B9785F"],[0.57633410672853824,"#B9785F"],[0.58468677494199528,"#B8765D"],[0.60034802784222729,"#B6735B"],[0.61020881670533644,"#B57159"],[0.61252900232018559,"#B47159"],[0.62122969837586994,"#B36F57"],[0.6310904872389792,"#B26D56"],[0.6389791183294663,"#B16B54"],[0.64037122969837579,"#B16B54"],[0.67099767981438485,"#AD654F"],[0.67616837918462058,"#AC644E"],[0.68445475638051023,"#AB624D"],[0.71276102088167026,"#A75C48"],[0.71377346551360477,"#A75C48"],[0.74555297757153882,"#A35543"],[0.7517401392111368,"#A25442"],[0.75696055684454744,"#A15341"],[0.76764998342724544,"#A05140"],[0.79489559164733159,"#9C4B3B"],[0.81206496519721583,"#9A4839"],[0.83725555187272105,"#964235"],[0.85228151585460166,"#943F33"],[0.87354988399071909,"#913B2F"],[0.88785769528228908,"#8F382D"],[0.90487238979118323,"#8D342B"],[0.92296983758700701,"#8A3028"],[0.94199535962877001,"#872B25"],[1,"#7F1D1D"]],"type":"heatmap","showscale":false,"autocolorscale":false,"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1],"y":[1],"name":"10a0087e16a102d0a7ba26355452c7d8","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#FEF3C7"],[0.0033444816053512538,"#FEF2C6"],[0.0066889632107023098,"#FDF2C6"],[0.010033444816053564,"#FDF1C5"],[0.01337792642140462,"#FDF0C4"],[0.016722408026755873,"#FCEFC4"],[0.02006688963210693,"#FCEFC3"],[0.023411371237458185,"#FBEEC3"],[0.026755852842809437,"#FBEDC2"],[0.030100334448160494,"#FBECC1"],[0.033444816053511746,"#FAECC1"],[0.036789297658863004,"#FAEBC0"],[0.04013377926421386,"#FAEABF"],[0.043478260869565112,"#F9E9BF"],[0.046822742474916371,"#F9E9BE"],[0.050167224080267622,"#F8E8BD"],[0.053511705685618874,"#F8E7BD"],[0.056856187290969737,"#F8E6BC"],[0.060200668896320988,"#F7E6BC"],[0.06354515050167224,"#F7E5BB"],[0.066889632107023492,"#F7E4BA"],[0.070234113712374743,"#F6E4BA"],[0.073578595317725606,"#F6E3B9"],[0.076923076923076858,"#F5E2B8"],[0.08026755852842811,"#F5E1B8"],[0.083612040133779375,"#F5E1B7"],[0.086956521739130224,"#F4E0B6"],[0.090301003344481476,"#F4DFB6"],[0.093645484949832741,"#F4DEB5"],[0.096989966555183993,"#F3DEB5"],[0.10033444816053524,"#F3DDB4"],[0.10367892976588611,"#F2DCB3"],[0.10702341137123736,"#F2DBB3"],[0.11036789297658861,"#F2DBB2"],[0.11371237458193986,"#F1DAB1"],[0.11705685618729111,"#F1D9B1"],[0.12040133779264198,"#F0D9B0"],[0.12374581939799323,"#F0D8B0"],[0.12709030100334448,"#F0D7AF"],[0.13043478260869573,"#EFD6AE"],[0.13377926421404698,"#EFD6AE"],[0.13712374581939785,"#EFD5AD"],[0.1404682274247491,"#EED4AC"],[0.14381270903010035,"#EED3AC"],[0.1471571906354516,"#EDD3AB"],[0.15050167224080246,"#EDD2AB"],[0.15384615384615372,"#EDD1AA"],[0.15719063545150497,"#ECD1A9"],[0.16053511705685622,"#ECD0A9"],[0.1638795986622075,"#EBCFA8"],[0.16722408026755833,"#EBCEA7"],[0.17056856187290959,"#EBCEA7"],[0.17391304347826086,"#EACDA6"],[0.17725752508361212,"#EACCA6"],[0.18060200668896337,"#EACCA5"],[0.18394648829431423,"#E9CBA4"],[0.18729096989966548,"#E9CAA4"],[0.19063545150501673,"#E8C9A3"],[0.19397993311036799,"#E8C9A2"],[0.19732441471571924,"#E8C8A2"],[0.2006688963210701,"#E7C7A1"],[0.20401337792642135,"#E7C6A1"],[0.2073578595317726,"#E6C6A0"],[0.21070234113712386,"#E6C59F"],[0.21404682274247472,"#E6C49F"],[0.21739130434782597,"#E5C49E"],[0.22073578595317722,"#E5C39D"],[0.22408026755852847,"#E4C29D"],[0.22742474916387972,"#E4C19C"],[0.23076923076923098,"#E4C19C"],[0.23411371237458184,"#E3C09B"],[0.23745819397993309,"#E3BF9A"],[0.24080267558528434,"#E3BF9A"],[0.24414715719063559,"#E2BE99"],[0.24749163879598646,"#E2BD99"],[0.25083612040133774,"#E1BC98"],[0.25418060200668896,"#E1BC97"],[0.25752508361204024,"#E1BB97"],[0.26086956521739146,"#E0BA96"],[0.26421404682274235,"#E0BA96"],[0.26755852842809358,"#DFB995"],[0.27090301003344486,"#DFB894"],[0.27424749163879608,"#DFB794"],[0.27759197324414697,"#DEB793"],[0.2809364548494982,"#DEB692"],[0.28428093645484948,"#DDB592"],[0.2876254180602007,"#DDB591"],[0.29096989966555198,"#DDB491"],[0.2943143812709032,"#DCB390"],[0.29765886287625409,"#DCB28F"],[0.30100334448160532,"#DBB28F"],[0.3043478260869566,"#DBB18E"],[0.30769230769230782,"#DBB08E"],[0.31103678929765871,"#DAB08D"],[0.31438127090300994,"#DAAF8C"],[0.31772575250836121,"#D9AE8C"],[0.32107023411371244,"#D9AD8B"],[0.32441471571906372,"#D9AD8B"],[0.32775919732441455,"#D8AC8A"],[0.33110367892976583,"#D8AB89"],[0.33444816053511711,"#D7AB89"],[0.33779264214046834,"#D7AA88"],[0.34113712374581917,"#D7A988"],[0.34448160535117045,"#D6A987"],[0.34782608695652173,"#D6A886"],[0.35117056856187295,"#D5A786"],[0.35451505016722423,"#D5A685"],[0.35785953177257507,"#D5A685"],[0.36120401337792635,"#D4A584"],[0.36454849498327757,"#D4A483"],[0.36789297658862885,"#D3A483"],[0.37123745819398007,"#D3A382"],[0.37458193979933097,"#D2A282"],[0.37792642140468219,"#D2A181"],[0.38127090301003347,"#D2A180"],[0.38461538461538469,"#D1A080"],[0.38795986622073597,"#D19F7F"],[0.39130434782608681,"#D09F7F"],[0.39464882943143809,"#D09E7E"],[0.39799331103678931,"#D09D7E"],[0.40133779264214059,"#CF9D7D"],[0.40468227424749142,"#CF9C7C"],[0.4080267558528427,"#CE9B7C"],[0.41137123745819393,"#CE9A7B"],[0.41471571906354521,"#CE9A7B"],[0.41806020066889643,"#CD997A"],[0.42140468227424732,"#CD9879"],[0.42474916387959855,"#CC9879"],[0.42809364548494983,"#CC9778"],[0.43143812709030105,"#CB9678"],[0.43478260869565233,"#CB9677"],[0.43812709030100316,"#CB9576"],[0.44147157190635444,"#CA9476"],[0.44481605351170572,"#CA9375"],[0.44816053511705695,"#C99375"],[0.45150501672240823,"#C99274"],[0.45484949832775906,"#C99174"],[0.45819397993311034,"#C89173"],[0.46153846153846156,"#C89072"],[0.46488294314381284,"#C78F72"],[0.46822742474916368,"#C78F71"],[0.47157190635451496,"#C68E71"],[0.47491638795986618,"#C68D70"],[0.47826086956521746,"#C68C70"],[0.48160535117056869,"#C58C6F"],[0.48494983277591996,"#C58B6E"],[0.4882943143812708,"#C48A6E"],[0.49163879598662208,"#C48A6D"],[0.4949832775919733,"#C4896D"],[0.49832775919732419,"#C3886C"],[0.50167224080267547,"#C3886B"],[0.50501672240802664,"#C2876B"],[0.50836120401337792,"#C2866A"],[0.5117056856187292,"#C1866A"],[0.51505016722408048,"#C18569"],[0.51839464882943131,"#C18469"],[0.52173913043478259,"#C08368"],[0.52508361204013376,"#C08367"],[0.52842809364548504,"#BF8267"],[0.53177257525083588,"#BF8166"],[0.53511705685618716,"#BE8166"],[0.53846153846153844,"#BE8065"],[0.54180602006688972,"#BE7F65"],[0.54515050167224088,"#BD7F64"],[0.54849498327759216,"#BD7E63"],[0.551839464882943,"#BC7D63"],[0.55518394648829428,"#BC7D62"],[0.55852842809364556,"#BB7C62"],[0.56187290969899639,"#BB7B61"],[0.56521739130434767,"#BB7A61"],[0.56856187290969895,"#BA7A60"],[0.57190635451505023,"#BA7960"],[0.5752508361204014,"#B9785F"],[0.57859531772575268,"#B9785E"],[0.58193979933110351,"#B8775E"],[0.58528428093645479,"#B8765D"],[0.58862876254180607,"#B8765D"],[0.59197324414715735,"#B7755C"],[0.59531772575250819,"#B7745C"],[0.59866220735785947,"#B6745B"],[0.60200668896321063,"#B6735A"],[0.60535117056856191,"#B5725A"],[0.60869565217391319,"#B57259"],[0.61204013377926447,"#B57159"],[0.61538461538461531,"#B47058"],[0.61872909698996659,"#B46F58"],[0.62207357859531776,"#B36F57"],[0.6254180602006687,"#B36E57"],[0.62876254180601987,"#B26D56"],[0.63210702341137115,"#B26D55"],[0.63545150501672243,"#B16C55"],[0.63879598662207371,"#B16B54"],[0.64214046822742488,"#B16B54"],[0.64548494983277582,"#B06A53"],[0.64882943143812699,"#B06953"],[0.65217391304347827,"#AF6952"],[0.65551839464882955,"#AF6852"],[0.65886287625418039,"#AE6751"],[0.66220735785953166,"#AE6751"],[0.66555183946488294,"#AD6650"],[0.66889632107023422,"#AD654F"],[0.67224080267558539,"#AD644F"],[0.67558528428093667,"#AC644E"],[0.67892976588628751,"#AC634E"],[0.68227424749163879,"#AB624D"],[0.68561872909699006,"#AB624D"],[0.6889632107023409,"#AA614C"],[0.69230769230769218,"#AA604C"],[0.69565217391304346,"#A9604B"],[0.69899665551839463,"#A95F4B"],[0.70234113712374591,"#A95E4A"],[0.70568561872909719,"#A85E49"],[0.70903010033444802,"#A85D49"],[0.7123745819397993,"#A75C48"],[0.71571906354515058,"#A75C48"],[0.71906354515050175,"#A65B47"],[0.72240802675585269,"#A65A47"],[0.72575250836120386,"#A55A46"],[0.72909698996655514,"#A55946"],[0.73244147157190642,"#A55845"],[0.7357859531772577,"#A45745"],[0.73913043478260887,"#A45744"],[0.74247491638795982,"#A35644"],[0.74581939799331098,"#A35543"],[0.74916387959866226,"#A25543"],[0.7525083612040131,"#A25442"],[0.75585284280936438,"#A15341"],[0.75919732441471566,"#A15341"],[0.76254180602006694,"#A05240"],[0.76588628762541811,"#A05140"],[0.76923076923076938,"#A0513F"],[0.77257525083612022,"#9F503F"],[0.7759197324414715,"#9F4F3E"],[0.77926421404682278,"#9E4E3E"],[0.78260869565217406,"#9E4E3D"],[0.78595317725752489,"#9D4D3D"],[0.78929765886287617,"#9D4C3C"],[0.79264214046822745,"#9C4C3C"],[0.79598662207357862,"#9C4B3B"],[0.7993311036789299,"#9B4A3B"],[0.80267558528428118,"#9B4A3A"],[0.80602006688963201,"#9B493A"],[0.80936454849498329,"#9A4839"],[0.81270903010033457,"#9A4839"],[0.81605351170568541,"#994738"],[0.81939799331103669,"#994638"],[0.82274247491638786,"#984537"],[0.82608695652173914,"#984537"],[0.82943143812709041,"#974436"],[0.83277591973244169,"#974336"],[0.83612040133779253,"#964335"],[0.83946488294314381,"#964235"],[0.84280936454849498,"#954134"],[0.84615384615384626,"#954033"],[0.84949832775919709,"#944033"],[0.85284280936454837,"#943F32"],[0.85618729096989965,"#943E32"],[0.85953177257525093,"#933E31"],[0.8628762541806021,"#933D31"],[0.86622073578595304,"#923C30"],[0.86956521739130421,"#923C30"],[0.87290969899665549,"#913B2F"],[0.87625418060200677,"#913A2F"],[0.87959866220735761,"#90392E"],[0.88294314381270889,"#90392E"],[0.88628762541806017,"#8F382D"],[0.88963210702341144,"#8F372D"],[0.89297658862876261,"#8E362C"],[0.89632107023411389,"#8E362C"],[0.89966555183946517,"#8D352B"],[0.90301003344481601,"#8D342B"],[0.90635451505016729,"#8C332A"],[0.90969899665551812,"#8C332A"],[0.9130434782608694,"#8C3229"],[0.91638795986622068,"#8B3129"],[0.91973244147157185,"#8B3128"],[0.92307692307692313,"#8A3028"],[0.92642140468227441,"#8A2F28"],[0.92976588628762569,"#892E27"],[0.93311036789297652,"#892D27"],[0.9364548494983278,"#882D26"],[0.93979933110367864,"#882C26"],[0.94314381270902992,"#872B25"],[0.94648829431438108,"#872A25"],[0.94983277591973236,"#862A24"],[0.95317725752508364,"#862924"],[0.95652173913043492,"#852823"],[0.95986622073578609,"#852723"],[0.96321070234113704,"#842622"],[0.96655518394648821,"#842622"],[0.96989966555183948,"#832521"],[0.97324414715719032,"#832421"],[0.9765886287625416,"#822320"],[0.97993311036789288,"#822220"],[0.98327759197324416,"#81211F"],[0.98662207357859533,"#81211F"],[0.98996655518394661,"#80201E"],[0.99331103678929789,"#801F1E"],[0.99665551839464872,"#7F1E1D"],[1,"#7F1D1D"]],"colorbar":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"thickness":23.039999999999996,"title":"Avg score","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"tickmode":"array","ticktext":["140","160","180"],"tickvals":[0.19591260634184063,0.47340680587780343,0.75090100541376636],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":50.889737905154803,"l":183.37899543378998},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Interactive Team-Season Scoring Heatmap","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,12.6],"tickmode":"array","ticktext":["IPL-2008","IPL-2009","IPL-2010","IPL-2011","IPL-2012","IPL-2013","IPL-2014","IPL-2015","IPL-2016","IPL-2017","IPL-2018","IPL-2019"],"tickvals":[1,2,3,4.0000000000000009,5,6,7.0000000000000009,8,9,10,11,12],"categoryorder":"array","categoryarray":["IPL-2008","IPL-2009","IPL-2010","IPL-2011","IPL-2012","IPL-2013","IPL-2014","IPL-2015","IPL-2016","IPL-2017","IPL-2018","IPL-2019"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"Season","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,15.6],"tickmode":"array","ticktext":["Chennai Super Kings","Deccan Chargers","Delhi Capitals","Delhi Daredevils","Gujarat Lions","Kings XI Punjab","Kochi Tuskers Kerala","Kolkata Knight Riders","Mumbai Indians","Pune Warriors","Rajasthan Royals","Rising Pune Supergiant","Rising Pune Supergiants","Royal Challengers Bangalore","Sunrisers Hyderabad"],"tickvals":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],"categoryorder":"array","categoryarray":["Chennai Super Kings","Deccan Chargers","Delhi Capitals","Delhi Daredevils","Gujarat Lions","Kings XI Punjab","Kochi Tuskers Kerala","Kolkata Knight Riders","Mumbai Indians","Pune Warriors","Rajasthan Royals","Rising Pune Supergiant","Rising Pune Supergiants","Royal Challengers Bangalore","Sunrisers Hyderabad"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Team","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Avg score","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"23001914658d":{"x":{},"y":{},"fill":{},"text":{},"type":"heatmap"}},"cur_data":"23001914658d","visdat":{"23001914658d":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<hr>
+</section>
+<section id="searchable-team-summary-table" class="level2">
+<h2 class="anchored" data-anchor-id="searchable-team-summary-table">5. Searchable Team Summary Table</h2>
+<p>This table gives exact values behind the team win-rate chart. It allows the audience to search, sort, and compare franchises directly.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-eae6218a089cb2f7d184" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-eae6218a089cb2f7d184">{"x":{"filter":"none","vertical":false,"data":[["Delhi Capitals","Rising Pune Supergiant","Chennai Super Kings","Mumbai Indians","Sunrisers Hyderabad","Rajasthan Royals","Kolkata Knight Riders","Royal Challengers Bangalore","Kings XI Punjab","Gujarat Lions","Kochi Tuskers Kerala","Delhi Daredevils","Deccan Chargers","Rising Pune Supergiants","Pune Warriors"],[16,16,164,187,108,145,178,177,176,30,14,159,75,14,45],[10,10,100,109,58,75,92,84,82,13,6,67,29,5,12],["62.5%","62.5%","61.0%","58.3%","53.7%","51.7%","51.7%","47.5%","46.6%","43.3%","42.9%","42.1%","38.7%","35.7%","26.7%"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Team<\/th>\n      <th>Matches Played<\/th>\n      <th>Wins<\/th>\n      <th>Win Rate<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"autoWidth":true,"searchHighlight":true,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"name":"Team","targets":0},{"name":"Matches Played","targets":1},{"name":"Wins","targets":2},{"name":"Win Rate","targets":3}],"order":[],"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<hr>
+</section>
+<section id="how-this-interactive-element-supports-the-story" class="level2">
+<h2 class="anchored" data-anchor-id="how-this-interactive-element-supports-the-story">How this interactive element supports the story</h2>
+<p>The main report argues that IPL cricket has become more aggressive and higher-scoring over time. This interactive explorer extends that story by allowing the audience to inspect league-level scoring trends, compare franchise success, and explore team-by-season scoring patterns in more detail.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
