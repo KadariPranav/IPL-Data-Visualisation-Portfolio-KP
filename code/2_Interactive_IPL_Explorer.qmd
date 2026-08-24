@@ -1,6 +1,7 @@
 ---
 title: "Interactive IPL Performance Explorer"
-author: "Pranav Kadari - A1987287"
+author: "Pranav Kadari
+"
 format:
   html:
     theme: cosmo
