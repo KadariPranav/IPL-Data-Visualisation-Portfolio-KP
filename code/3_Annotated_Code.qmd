@@ -1,6 +1,6 @@
 ---
 title: "MATH X314 Assessment 4B Annotated Code"
-author: "Pranav Kadari - A1987287"
+author: "Pranav Kadari"
 format: html
 execute:
   echo: true
